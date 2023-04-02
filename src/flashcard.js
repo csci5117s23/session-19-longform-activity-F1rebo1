@@ -6,25 +6,22 @@ export default function Flashcard(){
     const [val,setVal] = useState("Front");
     const [cls, setCls] = useState("green");
     
-    const QUESTIONS = [{front: "question1", back:"answer1"},
-                    {front: "question2", back:"answer2"},
-                    {front: "question3", back:"answer3"},]
-
-    // for(let pair = 0; pair < QUESTIONS.length; pair++){
-    //     <ClickCard cls={cls} value={val} onCardClick={handleClick}></ClickCard>
-    // }
+    const QUESTIONS = [{front: "Approximately how old is the Universe?", back:"13.7 billion years old"},
+                    {front: "How many bones are in the human body?", back:"206"},
+                    {front: "What is my Ishtin's favorite food?", back:"Pasta!"},
+                    {front: "Who is pathram?", back:"A goose"}]
 
     function handleClick(){
-        if(isFlipped){
-            console.log('Pongal log');
+        if(!isFlipped){
             setCls("green");
-            setVal("Front");
-            setIsFlipped(false);
-        }else{
-            console.log('Hungala Mungala log');
-            setCls("yellow");
-            setVal("Back");
+            setVal([QUESTIONS.map(q => q.front)]);
+            // console.log("GREEN PONGA: key = " + val);
             setIsFlipped(true);
+        }else{
+            setCls("yellow");
+            setVal([QUESTIONS.map(a => a.back)]);
+            // console.log("YELLOW PONGAL: val = " + val);
+            setIsFlipped(false);
         }
     }
 
@@ -34,13 +31,24 @@ export default function Flashcard(){
             .green {background-color: green}
       `}</style>
         <div>
-            <ClickCard cls={cls} value={val} onCardClick={handleClick}></ClickCard>
+            {(() => {
+                const elements = [];
+                for (let i = 0; i < QUESTIONS.length; i++) {
+                elements.push(
+                    <ClickCard cls={cls} value={val[0][i]} onCardClick={handleClick} />
+                );
+                }
+                return elements;
+            })()}
         </div>
     </>);
 }
 
-function ClickCard({ cls, value, onCardClick }){
+function ClickCard({ cls, value, front, back, onCardClick }){
+    // let value = ;
     return (<>
+        {/* <button className={cls} onClick={onCardClick}>{value}</button> */}
         <button className={cls} onClick={onCardClick}>{value}</button>
+        {/* <div className={cls} onClick={onCardClick}>{value}</div> */}
     </>);
 }
